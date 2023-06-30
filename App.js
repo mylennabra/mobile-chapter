@@ -1,20 +1,96 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+// Este import é necessário pois ele permite o uso de estados
+// na aplicação (atualizar interface em tempo real)
+// React: biblioteca principal do React responsável por renderizar os componentes 
+// useState: hook do React, permite adicionar e utilizar o estado nos componentes
+import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+// Estes são os componentes e estilos do React Native usados aqui
+// é necessário importar todos que for usar, porém pode-se adicionar todos
+// de uma só vez substituindo o import acima por:
+// import * as ReactNative from 'react-native';
 
+// Vai retornar definição do componente funcional
 export default function App() {
+  // Declaração do estado 'list' e da função 'setList' para atualizar o estado
+  // O estado 'list' será uma lista vazia inicialmente
+  const [list, setList] = useState([]);
+  
+  // Declaração do estado 'textInputValue' e da função 'setTextInputValue'
+  // O estado 'textInputValue' será uma string vazia inicialmente
+  const [textInputValue, setTextInputValue] = useState('');
+
+  // Função p adicionar um item à lista
+  const addItem = () => {
+    // Verifica se o valor do texto de entrada não está vazio
+    // trim() para remover os espaços em branco do começo ou fim do texto
+    if (textInputValue.trim() !== '') {
+      // Adiciona o valor do texto de entrada à lista
+      // O spread operator (...) para mantem os itens ja adicionados
+      setList([...list, textInputValue]);
+      // Limpa o valor do input
+      setTextInputValue('');
+    }
+  }
+
   return (
+    // View é tudo que estará no campo de visão, a interface deverá estar dentro dele
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {/* Obs.: Os comentários de entre as tags e seus filhos dever estar entre "{/ * a * /}" */}
+      {/* Input */}
+      <TextInput
+        value={textInputValue}
+        // O estado 'textInputValue' definido lá em cima sendo usado aqui
+        onChangeText={value => setTextInputValue(value)}
+        placeholder="Digite um valor"
+        // Fazendo uma analogia a web HTML+CSS...
+        // styles aqui é como um arquivo .css e textInput as classes contidas nele
+        style={styles.textInput}
+      />
+      {/* Botão que irá executar a função addItem() */}
+      {/* Observe que o estilo está inline, uma opção seria colocar
+          style={styles.botao} e no bloco styles lá embaixo inserir 
+          color="#2196F3"*/}
+      <Button onPress={addItem} title="Adicionar" color="#2196F3" />
+      {/* Rótulo da lista */}
+      <Text style={styles.listLabel}>Lista:</Text>
+      {/* Função map para renderizar os itens da lista */}
+      {list.map((item, index) => (
+        // Cada item um componente de texto
+        <Text key={index} style={styles.listItem}>
+          {item}
+        </Text>
+      ))}
     </View>
   );
-}
+  }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  // Autoexplicativo ;)
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F5F5F5',
+    },
+    textInput: {
+      width: '80%',
+      height: 40,
+      borderColor: '#CCCCCC',
+      borderWidth: 1,
+      borderRadius: 5,
+      paddingHorizontal: 10,
+      marginBottom: 10,
+      backgroundColor: '#FFFFFF',
+    },
+    listLabel: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      color: '#333333',
+    },
+    listItem: {
+      fontSize: 16,
+      color: '#666666',
+      marginBottom: 5,
+    },
+  });
