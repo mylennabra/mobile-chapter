@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 // na aplicação (atualizar interface em tempo real)
 // React: biblioteca principal do React responsável por renderizar os componentes 
 // useState: hook do React, permite adicionar e utilizar o estado nos componentes
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, ScrollView } from 'react-native';
+
 // Estes são os componentes e estilos do React Native usados aqui
 // é necessário importar todos que for usar, porém pode-se adicionar todos
 // de uma só vez substituindo o import acima por:
-// import * as ReactNative from 'react-native';
+// import * as ReactNative from 'react-native'
 
 // Vai retornar definição do componente funcional
 export default function App() {
@@ -33,8 +34,12 @@ export default function App() {
   }
 
   return (
-    // View é tudo que estará no campo de visão, a interface deverá estar dentro dele
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scroll}>
+      <View style={styles.appbar}>
+        <Text style={styles.appbartxt}>To-Do List</Text>
+      </View>
+      {/* // View é tudo que estará no campo de visão, a interface deverá estar dentro dele */}
+      <View style={styles.container}>
       {/* Obs.: Os comentários de entre as tags e seus filhos dever estar entre "{/ * a * /}" */}
       {/* Input */}
       <TextInput
@@ -61,15 +66,33 @@ export default function App() {
         </Text>
       ))}
     </View>
+    </ScrollView>
   );
   }
 
   // Autoexplicativo ;)
   const styles = StyleSheet.create({
+    scroll:{
+      flex: 1,
+      height: '100%',
+    },
+    appbar:{
+      height: '15%',
+      backgroundColor: 'rgba(153, 51, 153, 100)',
+      alignItems: 'center',
+      padding: '5%',
+      justifyContent: 'flex-end',
+    },
+    appbartxt:{
+      color: 'white',
+      fontSize: '24px',
+      fontWeight: 'bold',
+    },
     container: {
       flex: 1,
-      justifyContent: 'center',
       alignItems: 'center',
+      padding:'10%',
+      justifyContent: 'flex-start',
       backgroundColor: '#F5F5F5',
     },
     textInput: {
